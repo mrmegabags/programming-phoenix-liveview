@@ -1,0 +1,25 @@
+<div>
+  <.form 
+    for={@form} 
+    phx-submit="save" 
+    phx-target={@myself} 
+    id={"rating-form-#{@id}"}>
+    <div class="flex items-center gap-2">
+      <.input
+        field={@form[:stars]}
+        type="select"
+        prompt={RatingLive.Show.unfilled_stars(0) |> Enum.join()}
+        options={[
+          "★★★★★": 5,
+          "★★★★": 4,
+          "★★★": 3,
+          "★★": 2,
+          "★": 1
+        ]}
+      />
+      <.button type="submit">Save</.button>
+    </div>
+    <input type="hidden" name={@form[:user_id].name} value={@form[:user_id].value} />
+    <input type="hidden" name={@form[:product_id].name} value={@form[:product_id].value} />
+  </.form>
+</div> 

@@ -1,0 +1,29 @@
+<div class="mx-auto max-w-2xl px-4 py-8">
+  <.header>
+    Send Your Promo Code to a Friend
+    <:subtitle>
+      Use this form to send a 10% off promo code for their first game purchase!
+    </:subtitle>
+  </.header>
+
+  <div class="mt-8">
+    <.form
+      for={@form}
+      id="promo-form"
+      phx-change="validate"
+      phx-submit="save"
+    >
+      <.input field={@form[:first_name]} type="text" label="First Name" />
+      <.input
+        field={@form[:email]}
+        type="email"
+        label="Email"
+        phx-debounce="blur"
+      />
+
+      <footer class="mt-6">
+        <.button phx-disable-with="Sending...">Send Promo</.button>
+      </footer>
+    </.form>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content={get_csrf_token()} />
+    <.live_title default="Pento" suffix=" · Phoenix Framework">
+      {assigns[:page_title]}
+    </.live_title>
+    <link phx-track-static rel="stylesheet" href={~p"/assets/css/app.css"} />
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"}>
+    </script>
+    <script>
+      (() => {
+        const setTheme = (theme) => {
+          if (theme === "system") {
+            localStorage.removeItem("phx:theme");
+            document.documentElement.removeAttribute("data-theme");
+          } else {
+            localStorage.setItem("phx:theme", theme);
+            document.documentElement.setAttribute("data-theme", theme);
+          }
+        };
+        setTheme(localStorage.getItem("phx:theme") || "system");
+        window.addEventListener("storage", (e) => e.key === "phx:theme" && setTheme(e.newValue || "system"));
+        window.addEventListener("phx:set-theme", ({ detail: { theme } }) => setTheme(theme));
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between border-b border-zinc-100 py-3 text-sm">
+        <div class="flex items-center gap-4">
+          <a href="/">
+            <svg viewBox="0 0 55 55" class="h-6">
+              <rect x="0" y="0" width="55" height="55" fill="#DDD" />
+              <rect x="10" y="5" width="30" height="30" fill="#689042"></rect>
+              <rect x="10" y="35" width="15" height="15" fill="#689042"></rect>
+            </svg>
+          </a>
+          <p class="px-2 text-[0.8125rem] font-heavy leading-6">
+            Pentominos
+          </p>
+        </div>
+        <ul class="menu menu-horizontal flex items-center gap-4 justify-end">
+      <%= if @current_scope do %>
+        <li>
+          <.link href={~p"/products"}>Products</.link>
+        </li>
+        <li>
+          <.link href={~p"/survey"}>Survey</.link>
+        </li>
+        <li>
+          <.link href={~p"/admin/dashboard"}>Dashboard</.link>
+        </li>
+        <li>
+          {@current_scope.user.email}
+        </li>
+        <li>
+          <.link href={~p"/users/settings"}>Settings</.link>
+        </li>
+        <li>
+          <.link href={~p"/users/log-out"} method="delete">Log out</.link>
+        </li>
+      <% else %>
+        <li>
+          <.link href={~p"/users/register"}>Register</.link>
+        </li>
+        <li>
+          <.link href={~p"/users/log-in"}>Log in</.link>
+        </li>
+      <% end %>
+        </ul>
+      </div>
+    </header>
+    <main class="px-4 py-20 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl">
+        {@inner_content}
+      </div>
+    </main>
+  </body>
+</html>

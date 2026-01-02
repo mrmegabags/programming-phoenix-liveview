@@ -1,0 +1,20 @@
+<Component.hero content="Survey">
+  Please fill out our survey
+</Component.hero>
+
+<Layouts.flash_group flash={@flash} />
+
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+  <%= if @demographic do %>
+    <Show.details demographic={@demographic} />
+    <hr />
+    <br/>
+    <RatingLive.Index.product_list 
+      products={@products} 
+      current_scope={@current_scope} />
+  <% else %>
+    <.live_component module={Form}
+          id="demographic-form"
+          current_scope={@current_scope} />
+  <% end %>
+</div>
